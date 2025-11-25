@@ -6,44 +6,28 @@ import HomeScreen from '@/screens/HomeScreen';
 import StoryScreen from '@/screens/StoryScreen';
 import CallLogsScreen from '@/screens/CallLogsScreen';
 import SettingsScreen from '@/screens/SettingsScreen';
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { User } from "@/types/User";
 import { Chat } from "@/interfaces/Chat";
 import { Tooltip } from "@mui/material";
+import { getChats, getUserFromLocalStorage } from "@/api_calls/chats";
+import { User } from "@/types/User";
 
 export default function App() {
   const [screen, setScreen] = useState("home");
   const router = useRouter();
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const [chats, setChats] = useState<Chat[] | undefined>(undefined);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (!user) {
-      router.push('/auth');
-    }
+    if (!user) getUserFromLocalStorage(setUser, router);
   }, [router, user]);
 
-
-
-  const getChats = async (): Promise<Chat[] | undefined> => {
-    try {
-      const chats = JSON.parse(localStorage.getItem("chats") || "null");
-      if (chats) {
-        return chats;
-      }
-      const { data } = await axios.get(
-        `https://android-chattr-app.onrender.com/api/v1/messages/chats/${user?._id}`
-      );
-      localStorage.setItem("chats", JSON.stringify(data.chats || []));
-      return data.chats;
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (user) {
+      getChats(user._id, setChats);
     }
-  };
-
-
-  const chats = JSON.parse(localStorage.getItem("chats") || "null") || getChats();
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">

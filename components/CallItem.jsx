@@ -1,4 +1,3 @@
-import {motion} from 'framer-motion';
 import { Phone } from 'lucide-react';
 
 export default function CallItem() {

@@ -1,14 +1,22 @@
 import { TextMessage, ImageMessage, AudioMessage, VideoMessage } from "@/components/Messages";
 import MessageInputBar from '@/components/InputBox';
 import { Info, Phone, Video } from "lucide-react";
+import Image from "next/image";
+import { useCurrentChat } from "@/providers/ChatProvider";
+
 
 export default function ConversationScreen() {
+
+    const { currentChat } = useCurrentChat();
+
+    console.log(currentChat);
+
     return (
         <div className="flex flex-col h-screen border-l border-gray-200">
-            {/* Top Bar */}
+
             <div className="flex items-center justify-between bg-white p-3 shadow-md sticky top-0 z-20 border-b">
                 <div className="flex items-center gap-3">
-                    <img src="https://via.placeholder.com/150" className="w-10 h-10 rounded-full object-cover" />
+                    <Image src={currentChat?.senderId === currentChat?.user?._id ? currentChat?.receiver?.profilePhoto?.secure_url : currentChat?.sender?.profilePhoto?.secure_url} className="w-10 h-10 rounded-full object-cover" width={40} height={40} alt="image" />
                     <div>
                         <p className="font-semibold text-gray-800 text-sm">John Doe</p>
                         <p className="text-xs text-gray-500">Last seen 2 mins ago</p>
