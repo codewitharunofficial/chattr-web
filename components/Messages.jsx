@@ -1,5 +1,6 @@
-export function TextMessage({ message, sender }) {
-    const isMe = sender === "me";
+import Image from "next/image";
+
+export function TextMessage({ message, isMe }) {
     return (
         <div className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
             <div
@@ -13,18 +14,16 @@ export function TextMessage({ message, sender }) {
 }
 
 
-export function ImageMessage({ imgUrl, sender }) {
-    const isMe = sender === "me";
+export function ImageMessage({ imgUrl, isMe }) {
     return (
         <div className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
-            <img src={imgUrl} className="w-40 h-40 rounded-2xl object-cover shadow" />
+            <Image src={imgUrl} className="w-40 h-40 rounded-2xl object-cover shadow" width={160} height={160} alt="image" />
         </div>
     );
 }
 
 
-export function AudioMessage({ sender }) {
-    const isMe = sender === "me";
+export function AudioMessage({ audioUrl, isMe }) {
     return (
         <div className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
             <div className="bg-white p-3 rounded-2xl shadow flex items-center gap-3 w-48">
@@ -36,8 +35,7 @@ export function AudioMessage({ sender }) {
 }
 
 
-export function VideoMessage({ videoUrl, sender }) {
-    const isMe = sender === "me";
+export function VideoMessage({ videoUrl, isMe }) {
     return (
         <div className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
             <video className="w-48 rounded-2xl shadow" controls>

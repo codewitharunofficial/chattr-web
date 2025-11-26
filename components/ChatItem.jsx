@@ -5,11 +5,13 @@ import moment from 'moment';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCurrentChat } from "@/providers/ChatProvider";
+import { useUser } from '@/providers/UserProvider';
 
 
 export default function ChatItem({ chat, user }) {
 
     const router = useRouter();
+    const { setUser } = useUser();
 
     const { setCurrentChat } = useCurrentChat();
 
@@ -17,7 +19,7 @@ export default function ChatItem({ chat, user }) {
         <motion.div
             className="bg-white p-4 rounded-xl shadow flex items-center gap-4 hover:bg-gray-50 cursor-pointer"
             whileHover={{ scale: 1.01 }}
-            onClick={() => {setCurrentChat(chat); router.push(`/chat`);}}
+            onClick={() => { setCurrentChat(chat); router.push(`/chat`); }}
         >
             <Image className="w-12 h-12 rounded-full bg-gray-300" src={chat?.senderId === user?._id ? chat?.receiver?.profilePhoto?.secure_url : chat?.sender?.profilePhoto?.secure_url} alt="User Avatar" width={48} height={48} />
             <div className="flex-1">

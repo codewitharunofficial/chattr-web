@@ -23,7 +23,7 @@ export const getChats = async (
 };
 
 export const getUserFromLocalStorage = (
-  setUser: React.Dispatch<React.SetStateAction<User | null>>,
+  setUser: React.Dispatch<React.SetStateAction<null>>,
   router: AppRouterInstance
 ) => {
   try {
