@@ -6,16 +6,27 @@ import { useCurrentChat } from "@/providers/ChatProvider";
 import { useUser } from "@/providers/UserProvider";
 import { useRouter } from "next/navigation";
 import moment from "moment";
+import { useUserProfile } from "@/providers/ProfileProvider";
+import { useEffect } from "react";
+import socketServices from "@/utilities/SocketServices";
 
 
 export default function ConversationScreen() {
 
-    const { currentChat } = useCurrentChat();
+    const { currentChat, setCurrentChat } = useCurrentChat();
     const router = useRouter();
 
 
-    console.log(currentChat);
+    // console.log(currentChat);
     const { user } = useUser();
+    const { profile, setProfile } = useUserProfile();
+
+    // useEffect(() => {
+    //     socketServices?.on('recieved-message', (data) => {
+    //         console.log('Message received:', data);
+    //         setCurrentChat({ ...currentChat, chat: [...currentChat.chat, data] }); // Update state with the new message
+    //     });
+    // }, [currentChat, setCurrentChat]);
 
     return (
         <div className="flex flex-col h-[90vh] border-l border-gray-200">
@@ -32,7 +43,7 @@ export default function ConversationScreen() {
                 <div className="flex items-center gap-4 text-gray-700">
                     <Video className="hover:text-blue-600 cursor-pointer" />
                     <Phone className="hover:text-blue-600 cursor-pointer" />
-                    <Info className="hover:text-blue-600 cursor-pointer" />
+                    <Info className="hover:text-blue-600 cursor-pointer" onClick={() => { setProfile(currentChat?.senderId === user?._id ? currentChat?.receiver : currentChat?.sender); router.push(`/profile`); }} />
                 </div>
             </div>
 
@@ -57,7 +68,7 @@ export default function ConversationScreen() {
             </div>
 
 
-            <MessageInputBar />
+            <MessageInputBar sender={user} receiver={profile} convoId={currentChat?._id} />
         </div>
     );
 }

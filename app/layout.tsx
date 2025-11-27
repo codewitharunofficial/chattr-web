@@ -6,6 +6,7 @@ import { ChatProvider } from "@/providers/ChatProvider";
 import { UserProvider } from "@/providers/UserProvider";
 import { TabProvider } from "@/providers/TabProvider";
 import Header from "@/components/Header";
+import { ProfileProvider } from "@/providers/ProfileProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,16 +36,19 @@ export default function RootLayout({
     <html lang="en">
       <UserProvider>
         <TabProvider>
-          <ChatProvider>
-            <body
-              className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}
-            >
-              <Header />
-              {children}
+          <ProfileProvider>
+
+            <ChatProvider>
+              <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}
+              >
+                <Header />
+                {children}
 
 
-            </body>
-          </ChatProvider>
+              </body>
+            </ChatProvider>
+          </ProfileProvider>
         </TabProvider>
       </UserProvider>
     </html>

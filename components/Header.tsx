@@ -3,13 +3,15 @@ import { useTab } from '@/providers/TabProvider'
 import { Tooltip } from '@mui/material'
 import { Phone, Plus, Settings, Users } from 'lucide-react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 const Header = () => {
     const { screen, setScreen } = useTab();
-    const router = useRouter();
+    const pathname = usePathname();
+    // console.log(pathname);
+
     return (
-        <nav className={`flex items-center justify-between bg-white p-4 shadow-md h-16`}>
+        <nav className={`${pathname === "/chat" ? "hidden" : "flex"} items-center justify-between bg-white p-4 shadow-md h-16`}>
             <div className="flex items-center gap-2">
                 <Image className="w-8 h-8 bg-blue-600 rounded-xl" src={'/Icon.webp'} alt="App Icon" width={80} height={80} />
                 <span className="font-bold text-gray-800 text-lg">Chattr-Web</span>

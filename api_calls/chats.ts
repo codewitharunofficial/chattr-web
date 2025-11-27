@@ -1,5 +1,6 @@
 import { Chat } from "@/interfaces/Chat";
-import { User } from "@/types/User";
+import { Message } from "@/types/Message";
+import socketServices from "@/utilities/SocketServices";
 import axios from "axios";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
@@ -34,6 +35,20 @@ export const getUserFromLocalStorage = (
     } else {
       router?.push("/");
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sendMessage = async (message: Message) => {
+  try {
+    socketServices.emit("send-message", {
+      message: message,
+    });
+
+    socketServices.emit("recieved-message", {
+      message: message,
+    });
   } catch (error) {
     console.log(error);
   }
